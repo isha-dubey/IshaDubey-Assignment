@@ -1,12 +1,21 @@
-import './App.css'
+import GlobalStyles from './styles/GlobalStyles';
+import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import AboutSection from './components/AboutSection';
+import ConsultationForm from './components/ConsultationForm';
+import Footer from './components/Footer';
 
 function App() {
-
   return (
     <>
-   <div>Hello</div>
+      <GlobalStyles />
+      <Header />
+      <HeroSection />
+      <AboutSection />
+      <ConsultationForm />
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
