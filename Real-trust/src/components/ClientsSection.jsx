@@ -38,9 +38,9 @@ const ClientsWrapper = styled.section`
   background-color: #f3f9ff;
 
   h2 {
-    font-size: 28px;
+    font-size: 34px;
     color: #007bff;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
 
   .clients-container {
@@ -60,8 +60,9 @@ const ClientsWrapper = styled.section`
 
 const ClientCard = styled.div`
   background-color: #ffffff;
-  min-width: 250px;
-  max-width: 250px;
+  min-width: 300px;
+  max-width: 300px;
+  height:350px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -73,14 +74,15 @@ const ClientCard = styled.div`
   }
 
   img {
-    width: 60px;
-    height: 60px;
+    margin-top:10px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     margin-bottom: 15px;
   }
 
   p {
-    font-size: 14px;
+    font-size: 18px;
     color: #666666;
     margin-bottom: 15px;
   }
@@ -88,7 +90,7 @@ const ClientCard = styled.div`
   h3 {
     font-size: 16px;
     color: #333333;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 span {

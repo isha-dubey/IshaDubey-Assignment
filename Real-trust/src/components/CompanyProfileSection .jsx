@@ -17,6 +17,7 @@ const CompanyProfileSection = () => {
 
       <div className="content">
         <h2>About Us</h2>
+        <p className="border"></p>
         <p>
           Fifteen years of experience in real estate, excellent customer service, and a commitment to work hard,
           listen, and follow through. We provide quality services to build relationships with clients and, more
@@ -44,6 +45,7 @@ display: flex;
   .content{
     padding-top:80px;
     border-bottom :14px solid  #f9f9f9;
+    color:#4d92f8 ;
   }
 
   .images {
@@ -51,6 +53,13 @@ display: flex;
     width: 100%;
     height: 400px;
     margin-bottom: 20px;
+  }
+  .border{
+    height:7px;
+    width:70px;
+    margin-left:265px;
+    border:5px solid #4d92f8;
+    border-radius:4px;
   }
 
   .image-item {
@@ -100,7 +109,7 @@ display: flex;
 
   h2 {
     font-size: 28px;
-    color: #1a1a1a;
+    color: #4d92f8;
     margin-bottom: 15px;
   }
 

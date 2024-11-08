@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import backgroundImage from '../assets/images/BackDrop4.svg'; // Replace with the actual background image path
+import backgroundImage from '../assets/images/BackDrop3.svg'; // Replace with the actual background image path
 import FooterNav from './FooterNav';
 
 const Footer = () => {

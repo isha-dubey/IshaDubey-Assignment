@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import BackDrop4 from '../assets/images/BackDrop4.svg';
+import BackDrop4 from '../assets/images/BackDrop2.svg';
 
 // Sample data for dynamic content
 const projectData = [
@@ -72,12 +72,13 @@ const ProjectsWrapper = styled.section`
 
 const ProjectCard = styled.div`
   background-color: #ffffff;
-  min-width: 200px;
+  min-width: 300px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s;
   text-align: left;
+  height:400px;
 
   &:hover {
     transform: translateY(-5px);
@@ -85,7 +86,7 @@ const ProjectCard = styled.div`
 
   img {
     width: 100%;
-    height: 130px;
+    height: 200px;
     object-fit: cover;
   }
 

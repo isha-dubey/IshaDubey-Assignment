@@ -5,12 +5,7 @@ import Dummy2 from '../assets/images/Couple.svg'
 import Dummy3 from '../assets/images/Man2.svg'
 import { useState } from 'react';
 import { createContact } from '../apis/Contact.api';
-import ValuePropositions from './ValuePropositions';
-import CompanyProfileSection from './CompanyProfileSection ';
-import OurProjectsSection from './OurProjects';
-import ClientSection from './ClientsSection';
-import Footer from './Footer';
-import { ToastContainer, toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -93,7 +88,7 @@ return(
   <NotYourAverageRealtorWrapper>
     <div className="not-your-average-realtor">
       <div className="realtor-info">
-        <h3>Not Your Average Realtor</h3>
+        <h3 >Not Your Average Realtor</h3>
         <p>
           Real Trust is a unique real estate agency that goes beyond the typical
           realtor experience. Our team of dedicated professionals are
@@ -114,10 +109,7 @@ return(
       </div>
     </div>
   </NotYourAverageRealtorWrapper>
-  <ValuePropositions/>
-  <CompanyProfileSection/>
-  <OurProjectsSection/>
-  <ClientSection/>
+
   
   </>
 );
@@ -232,6 +224,11 @@ const NotYourAverageRealtorWrapper = styled.section`
   line-height: 1.6;
   color: #333;
   width:600px;
+}
+.realtor-info h3 {
+ color:#4d92f8;
+ font-size:30px;
+ font-weight:900;
 }
 .realtor-profiles {
   display: flex;

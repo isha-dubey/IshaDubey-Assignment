@@ -1,12 +1,13 @@
+import React from 'react';
 import styled from '@emotion/styled';
-
+import logo from '../assets/images/logo.svg'
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
   background-color: #ffffff;
-  height:90px;
+  height: 90px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   .logo {
@@ -48,20 +49,26 @@ const HeaderWrapper = styled.header`
   }
 `;
 
-const HeaderSection = () => {
+export default function Header() {
+  // Function to handle scrolling to specific section by id
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <HeaderWrapper>
-      <a href="/" className="logo">Real Trust</a>
+      <img src={logo} alt="YourLogo" style={{ height: '40px' }} />
       <nav>
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#reviews">Reviews</a>
+        <a href="#!" onClick={() => scrollToSection('hero')}>Home</a>
+        <a href="#!" onClick={() => scrollToSection('value-propositions')}>Servies</a>
+        <a href="#!" onClick={() => scrollToSection('company-profile')}>About</a>
+        <a href="#!" onClick={() => scrollToSection('our-projects')}>Projects</a>
+        <a href="#!" onClick={() => scrollToSection('clients')}>Clients</a>
       </nav>
-      <button>Contact</button>
+      <button>Contact Us</button>
     </HeaderWrapper>
   );
-};
-
-export default HeaderSection;
+}

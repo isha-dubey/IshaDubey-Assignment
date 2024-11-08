@@ -1,43 +1,100 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-
-// Sample project data
-const projectData = [
-  {
-    id: 1,
-    name: 'Project Alpha',
-    description: 'This is a description for Project Alpha.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 2,
-    name: 'Project Beta',
-    description: 'This is a description for Project Beta.',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 3,
-    name: 'Project Gamma',
-    description: 'This is a description for Project Gamma.',
-    image: 'https://via.placeholder.com/150',
-  },
-];
+import { createProject, getProjects } from '../apis/Projects.api'; // Adjust the path as needed
 
 export default function ProjectsDetails() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    image: null,
+  });
+
+  // Fetch the projects from the API
+  const fetchProjects = async () => {
+    try {
+      const data = await getProjects(); // Get the project list from API
+      setProjects(data); // Update projects state with the data
+    } catch (error) {
+      console.error('Failed to fetch projects:', error);
+    }
+  };
+
+  // Submit form data to create a new project
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('image', formData.image);
+
+    try {
+      await createProject(formDataToSend); // Create new project using the imported API function
+      await fetchProjects(); // Refresh the project list after creation
+      setIsModalOpen(false); // Close the modal
+      setFormData({ name: '', description: '', image: null }); // Reset form
+    } catch (error) {
+      console.error('Error creating project:', error);
+    }
+  };
+
+  // Fetch projects initially when the component mounts
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  // Handle input changes for form
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
   return (
     <Container>
-      <Heading>Projects</Heading>
+      <Header>
+        <Heading>Projects</Heading>
+        <AddButton onClick={() => setIsModalOpen(true)}>Add Project</AddButton>
+      </Header>
       <ProjectList>
-        {projectData.map(project => (
+        {
+        projects.map((project) => (
           <ProjectCard key={project.id}>
-            <Image src={project.image} alt={project.name} />
+            <Image src={project.image || 'https://via.placeholder.com/150'} alt={project.name} />
             <ProjectInfo>
               <ProjectName>{project.name}</ProjectName>
               <ProjectDescription>{project.description}</ProjectDescription>
             </ProjectInfo>
           </ProjectCard>
-        ))}
+        ))
+        }
       </ProjectList>
+      {isModalOpen && (
+        <ModalOverlay>
+          <Modal>
+            <ModalHeader>
+              <ModalTitle>Add New Project</ModalTitle>
+              <CloseButton onClick={() => setIsModalOpen(false)}>&times;</CloseButton>
+            </ModalHeader>
+            <ModalContent onSubmit={handleSubmit}>
+              <Label>Project Image</Label>
+              <Input type="file" name="image" onChange={handleInputChange} />
+
+              <Label>Project Name</Label>
+              <Input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Enter project name" />
+
+              <Label>Project Description</Label>
+              <TextArea name="description" value={formData.description} onChange={handleInputChange} placeholder="Enter project description"></TextArea>
+
+              <SubmitButton type="submit">Submit</SubmitButton>
+            </ModalContent>
+          </Modal>
+        </ModalOverlay>
+      )}
     </Container>
   );
 }
@@ -47,10 +104,31 @@ const Container = styled.div`
   padding: 20px;
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
 const Heading = styled.h2`
   font-size: 28px;
   color: #333;
-  margin-bottom: 20px;
+`;
+
+const AddButton = styled.button`
+  padding: 8px 16px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e65500;
+  }
 `;
 
 const ProjectList = styled.div`
@@ -92,3 +170,87 @@ const ProjectDescription = styled.p`
   color: #666;
 `;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Modal = styled.div`
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+`;
+
+const ModalTitle = styled.h3`
+  font-size: 20px;
+  color: #333;
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+const ModalContent = styled.div`
+  margin-top: 20px;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 15px;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e65500;
+  }
+`;
