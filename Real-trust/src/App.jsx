@@ -2,7 +2,6 @@ import GlobalStyles from './styles/GlobalStyles';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
-import ConsultationForm from './components/ConsultationForm';
 import Footer from './components/Footer';
 
 function App() {
@@ -11,8 +10,8 @@ function App() {
       <GlobalStyles />
       <Header />
       <HeroSection />
-      <AboutSection />
-      <ConsultationForm />
+      {/* <AboutSection /> */}
+      {/* <ConsultationForm /> */}
       <Footer />
     </>
   );
