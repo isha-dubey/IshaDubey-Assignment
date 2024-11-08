@@ -10,9 +10,121 @@ import CompanyProfileSection from './CompanyProfileSection ';
 import OurProjectsSection from './OurProjects';
 import ClientSection from './ClientsSection';
 import Footer from './Footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-// import test from '../assets/shapes/Rectangle.svg'
+const HeroSection = () => {
+const [formData, setFormData] = useState({
+  fullname: '',
+  email: '',
+  mobile: '',
+  city: '',
+});
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!formData.fullname || !formData.email || !formData.mobile || !formData.city) {
+    alert('Empty or Incomplete form can not be submitted');
+    return;
+  }
+  const response = await createContact(formData);
+  console.log('API response:', response);
+
+  if (response && response.success) {
+    alert('Your request was submitted successfully!');
+  } else {
+    alert('There was an issue submitting the form.');
+  }   
+};
+
+return(
+<>
+  <HeroSectionWrapper>
+    <div className="hero-content">
+      <h2>Consultation, Design, & Marketing</h2>
+    </div>
+    <div className="get-consultation-form">
+        <h3 className="form-title">Get a Free Consultation</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="fullname"
+            className="form-input"
+            placeholder="Full Name"
+            value={formData.fullname}
+            onChange={handleChange}
+            />
+          <input
+            type="email"
+            name="email"
+            className="form-input"
+            placeholder="Enter Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            />
+          <input
+            type="tel"
+            name="mobile"
+            className="form-input"
+            placeholder="Mobile Number"
+            value={formData.mobile}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="city"
+            className="form-input"
+            placeholder="Area, City"
+            value={formData.city}
+            onChange={handleChange}
+            />
+          <button type="submit" className="form-button">Get Quick Quote</button>
+        </form>
+      </div>
+  </HeroSectionWrapper>
+
+
+  <NotYourAverageRealtorWrapper>
+    <div className="not-your-average-realtor">
+      <div className="realtor-info">
+        <h3>Not Your Average Realtor</h3>
+        <p>
+          Real Trust is a unique real estate agency that goes beyond the typical
+          realtor experience. Our team of dedicated professionals are
+          committed to providing personalized service and innovative solutions
+          to meet your real estate needs.
+        </p>
+      </div>
+      <div className="realtor-profiles">
+        <div className="realtor-profile">
+          <img src={Dummy1} alt="Realtor 1" />
+        </div>
+        <div className="realtor-profile">
+          <img src={Dummy2} alt="Realtor 2" />
+        </div>
+        <div className="realtor-profile">
+          <img src={Dummy3} alt="Realtor 3" />
+        </div>
+      </div>
+    </div>
+  </NotYourAverageRealtorWrapper>
+  <ValuePropositions/>
+  <CompanyProfileSection/>
+  <OurProjectsSection/>
+  <ClientSection/>
+  
+  </>
+);
+}
+
+
+export default  HeroSection;
 
 
 const HeroSectionWrapper = styled.section`
@@ -203,113 +315,3 @@ const NotYourAverageRealtorWrapper = styled.section`
 }
 
 `
-
-const HeroSection = () => {
-
-
-
-const [formData, setFormData] = useState({
-  fullname: '',
-  email: '',
-  mobile: '',
-  city: '',
-});
-
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData({ ...formData, [name]: value });
-};
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
- 
-    const response = await createContact(formData);
-    console.log(response); 
-};
-
-return(
-<>
-  <HeroSectionWrapper>
-    <div className="hero-content">
-      <h2>Consultation, Design, & Marketing</h2>
-    
-    </div>
-    <div className="get-consultation-form">
-        <h3 className="form-title">Get a Free Consultation</h3>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="fullname"
-            className="form-input"
-            placeholder="Full Name"
-            value={formData.fullname}
-            onChange={handleChange}
-            />
-          <input
-            type="email"
-            name="email"
-            className="form-input"
-            placeholder="Enter Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            />
-          <input
-            type="tel"
-            name="mobile"
-            className="form-input"
-            placeholder="Mobile Number"
-            value={formData.mobile}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="city"
-            className="form-input"
-            placeholder="Area, City"
-            value={formData.city}
-            onChange={handleChange}
-            />
-          <button type="submit" className="form-button">Get Quick Quote</button>
-        </form>
-      </div>
-  </HeroSectionWrapper>
-
-  
-
-
-
-  <NotYourAverageRealtorWrapper>
-    <div className="not-your-average-realtor">
-      <div className="realtor-info">
-        <h3>Not Your Average Realtor</h3>
-        <p>
-          Real Trust is a unique real estate agency that goes beyond the typical
-          realtor experience. Our team of dedicated professionals are
-          committed to providing personalized service and innovative solutions
-          to meet your real estate needs.
-        </p>
-      </div>
-      <div className="realtor-profiles">
-        <div className="realtor-profile">
-          <img src={Dummy1} alt="Realtor 1" />
-        </div>
-        <div className="realtor-profile">
-          <img src={Dummy2} alt="Realtor 2" />
-        </div>
-        <div className="realtor-profile">
-          <img src={Dummy3} alt="Realtor 3" />
-        </div>
-      </div>
-    </div>
-  </NotYourAverageRealtorWrapper>
-  <ValuePropositions/>
-  <CompanyProfileSection/>
-  <OurProjectsSection/>
-  <ClientSection/>
-  
-  </>
-);
-
-}
-
-export default  HeroSection;
