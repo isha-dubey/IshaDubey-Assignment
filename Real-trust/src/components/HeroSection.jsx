@@ -4,7 +4,7 @@ import Dummy1 from '../assets/images/Man1.svg'
 import Dummy2 from '../assets/images/Couple.svg'
 import Dummy3 from '../assets/images/Man2.svg'
 import { useState } from 'react';
-import { createContact } from '../Api';
+import { createContact } from '../apis/Contact.api';
 import ValuePropositions from './ValuePropositions';
 import CompanyProfileSection from './CompanyProfileSection ';
 import OurProjectsSection from './OurProjects';
