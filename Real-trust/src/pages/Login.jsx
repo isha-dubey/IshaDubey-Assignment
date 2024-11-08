@@ -32,8 +32,8 @@ const Login = () => {
 
   return (
     <Container>
-      <LoginForm>
-        <Heading>Welcome Back</Heading>
+      <LoginForm> 
+        <Heading>Admin Login</Heading>
         <Subtitle>Please login to your account</Subtitle>
         {localError && <ErrorMessage>{localError}</ErrorMessage>}
         <Form onSubmit={handleSubmit}>

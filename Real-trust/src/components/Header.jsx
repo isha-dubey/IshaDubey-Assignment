@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import logo from '../assets/images/logo.svg'
+import { useNavigate } from 'react-router-dom';
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
@@ -32,7 +33,10 @@ const HeaderWrapper = styled.header`
       }
     }
   }
-
+  div {
+    display:flex;
+    gap:10px;
+  }
   button {
     padding: 10px 20px;
     background-color: #ff6600;
@@ -50,6 +54,7 @@ const HeaderWrapper = styled.header`
 `;
 
 export default function Header() {
+  const navigate = useNavigate();
   // Function to handle scrolling to specific section by id
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -68,7 +73,11 @@ export default function Header() {
         <a href="#!" onClick={() => scrollToSection('our-projects')}>Projects</a>
         <a href="#!" onClick={() => scrollToSection('clients')}>Clients</a>
       </nav>
+      <div>
+
       <button>Contact Us</button>
+      <button onClick={() => navigate('/login')}>Admin Login</button>
+      </div>
     </HeaderWrapper>
   );
 }

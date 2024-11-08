@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import BackDrop4 from '../assets/images/BackDrop2.svg';
 
-// Sample data for dynamic content
+
 const projectData = [
   { title: "Consultation", category: "Project view", location: "Near home" },
   { title: "Design", category: "Project view", location: "Near home" },

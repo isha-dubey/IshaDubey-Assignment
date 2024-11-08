@@ -65,7 +65,12 @@ const Message = styled.p`
 
 export default function FooterNav() {
   const [email, setEmail] = useState('');
-
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
   const handleSubscribe = async () => {
     if (!email) {
       setMessage('Please enter a valid email address.');
@@ -88,11 +93,13 @@ export default function FooterNav() {
   return (
     <FooterNavWrapper>
       <NavLinks>
-        <NavItem>Home</NavItem>
-        <NavItem>Services</NavItem>
-        <NavItem>Projects</NavItem>
-        <NavItem>Testimonials</NavItem>
-        <NavItem>Contact</NavItem>
+      <NavLinks>
+        <NavItem onClick={() => scrollToSection('hero')}>Home</NavItem>
+        <NavItem onClick={() => scrollToSection('value-propositions')}>Services</NavItem>
+        <NavItem onClick={() => scrollToSection('our-projects')}>Projects</NavItem>
+        <NavItem onClick={() => scrollToSection('clients')}>Testimonials</NavItem>
+        <NavItem onClick={() => scrollToSection('hero')}>Contact</NavItem>
+      </NavLinks>
       </NavLinks>
       <Subscription>
         <SubscribeText>Subscribe to</SubscribeText>
