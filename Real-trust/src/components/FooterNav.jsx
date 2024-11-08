@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { subscribeUser } from '../apis/Subscriber.api'; // Import the subscribeUser API function
 
 const FooterNavWrapper = styled.div`
   display: flex;
@@ -57,27 +58,55 @@ const SubscribeButton = styled.button`
   }
 `;
 
-export default function FooterNav() {
+const Message = styled.p`
+  color: white;
+  font-weight: bold;
+`;
 
- 
+export default function FooterNav() {
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      setMessage('Please enter a valid email address.');
+      return;
+    }
+
+    try {
+      const response = await subscribeUser(email);
+      console.log(response)
+      if(response){
+
+        alert('Subscription successful!');
+        setEmail('');
+      }
+    } catch (error) {
+      alert('Subscription failed. Please try again.');
+    }
+  };
+
   return (
-    
-        <FooterNavWrapper>
-    <NavLinks>
-      <NavItem>Home</NavItem>
-      <NavItem>Services</NavItem>
-      <NavItem>Projects</NavItem>
-      <NavItem>Testimonials</NavItem>
-      <NavItem>Contact</NavItem>
-    </NavLinks>
-    <Subscription>
-      <SubscribeText>Subscribe to</SubscribeText>
-      <EmailInput type="email" placeholder="Enter Your Email Address" />
-      <SubscribeButton>Subscribe</SubscribeButton>
-    </Subscription>
-      </FooterNavWrapper>
-  
-  )
+    <FooterNavWrapper>
+      <NavLinks>
+        <NavItem>Home</NavItem>
+        <NavItem>Services</NavItem>
+        <NavItem>Projects</NavItem>
+        <NavItem>Testimonials</NavItem>
+        <NavItem>Contact</NavItem>
+      </NavLinks>
+      <Subscription>
+        <SubscribeText>Subscribe to</SubscribeText>
+        <EmailInput
+          type="email"
+          placeholder="Enter Your Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <SubscribeButton onClick={handleSubscribe}>Subscribe</SubscribeButton>
+      </Subscription>
+     
+    </FooterNavWrapper>
+  );
 }
 
 

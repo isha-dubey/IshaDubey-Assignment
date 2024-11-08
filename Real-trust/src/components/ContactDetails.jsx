@@ -1,32 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-
-// Sample contact data
-const contactData = [
-  {
-    id: 1,
-    name: 'Alice Johnson',
-    email: 'alice@example.com',
-    mobile: '123-456-7890',
-    city: 'New York',
-  },
-  {
-    id: 2,
-    name: 'Bob Williams',
-    email: 'bob@example.com',
-    mobile: '987-654-3210',
-    city: 'Los Angeles',
-  },
-  {
-    id: 3,
-    name: 'Carol Brown',
-    email: 'carol@example.com',
-    mobile: '555-666-7777',
-    city: 'Chicago',
-  },
-];
+import { getContacts } from '../apis/Contact.api';  // Assuming the getContacts function is in Contact.api.js
 
 export default function ContactDetails() {
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const response = await getContacts();
+      console.log(response)
+      if (response.success) {
+        setContacts(response.data?.data); // Assuming response.data is the array of contacts
+      } else {
+        setError(response.message);
+      }
+   
+      setLoading(false);
+    };
+
+    fetchContacts();
+  }, []);
+
+
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error: {error}</div>;
+
+
   return (
     <Container>
       <Heading>Contact Details</Heading>
@@ -37,18 +39,18 @@ export default function ContactDetails() {
           <TableCell>Mobile Number</TableCell>
           <TableCell>City</TableCell>
         </TableHeader>
-        {contactData.map(contact => (
+        {contacts.map(contact => (
           <TableRow key={contact.id}>
-            <TableCell>{contact.name}</TableCell>
+            <TableCell>{contact.fullname}</TableCell>
             <TableCell>{contact.email}</TableCell>
             <TableCell>{contact.mobile}</TableCell>
-            <TableCell>{contact.city}</TableCell>
-          </TableRow>
+            <TableCell>{contact.city}</TableCell> 
+           </TableRow>
         ))}
       </Table>
     </Container>
   );
-}
+      }
 
 // Styled Components
 const Container = styled.div`
@@ -98,4 +100,4 @@ const TableCell = styled.div`
   text-align: center;
   font-size: 16px;
   color: #333;
-`;
+`

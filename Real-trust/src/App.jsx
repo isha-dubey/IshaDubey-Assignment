@@ -4,7 +4,6 @@ import { useAuth } from './firebase/AuthProvider';
 import AdminPanel from './pages/AdminPanel';
 import Home from './pages/Home';
 import Login from './pages/Login';
-// import AdminButton from './components/AdminButton';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -14,7 +13,6 @@ function PrivateRoute({ children }) {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // This function simulates login success
   const handleLogin = (status) => {
     setIsAuthenticated(status);
   };

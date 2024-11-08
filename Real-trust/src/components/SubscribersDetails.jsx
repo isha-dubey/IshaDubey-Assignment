@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-
-// Sample subscriber data
-const subscriberData = [
-  { id: 1, email: 'subscriber1@example.com' },
-  { id: 2, email: 'subscriber2@example.com' },
-  { id: 3, email: 'subscriber3@example.com' },
-];
+import { getAllSubscribers } from '../apis/Subscriber.api'; // Assuming you have this API function
 
 export default function SubscribersDetails() {
+  const [subscribers, setSubscribers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  
+  useEffect(() => {
+    const fetchSubscribers = async () => {
+      try {
+        const data = await getAllSubscribers(); 
+        setSubscribers(data?.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Error fetching subscribers'); 
+        setLoading(false);
+      }
+    };
+
+    fetchSubscribers();
+  }, []); 
+
+  if (loading) {
+    return <div>Loading subscribers...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <Container>
       <Heading>Subscriber Details</Heading>
@@ -17,12 +39,14 @@ export default function SubscribersDetails() {
           <TableCell>Serial Number</TableCell>
           <TableCell>Email Address</TableCell>
         </TableHeader>
-        {subscriberData.map((subscriber, index) => (
+        {
+        subscribers.map((subscriber, index) => (
           <TableRow key={subscriber.id}>
             <TableCell>{index + 1}</TableCell> {/* Serial number */}
             <TableCell>{subscriber.email}</TableCell>
           </TableRow>
-        ))}
+        ))
+        }
       </Table>
     </Container>
   );
