@@ -1,36 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import BackDrop4 from '../assets/images/BackDrop2.svg';
+import { getProjects } from '../apis/Projects.api'; 
+import fallbackImage from '../assets/images/images.png'
 
 
-const projectData = [
-  { title: "Consultation", category: "Project view", location: "Near home" },
-  { title: "Design", category: "Project view", location: "Near home" },
-  { title: "Marketing & Design", category: "Project view", location: "Near home" },
-  { title: "Consultation & Marketing", category: "Project view", location: "Near home" },
-  { title: "Consultation", category: "Project view", location: "Near home" },
-  { title: "Consultation", category: "Project view", location: "Near home" },
-  { title: "Consultation", category: "Project view", location: "Near home" },
-  { title: "Consultation", category: "Project view", location: "Near home" }
-];
+
 
 const OurProjectsSection = () => {
+  const [projects, setProjects] = useState([]);  // Type the state based on your project data structure
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const projectData = await getProjects();  // Fetch project data
+       setProjects(projectData?.data)
+       console.log(projectData)
+      } catch (error) {
+        console.error('Failed to fetch projects', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
   return (
     <ProjectsWrapper>
       <h2>Our Projects</h2>
       <p>We know what buyers are looking for and suggest projects that will bring clients top dollar for the sale of their homes.</p>
       <div className="projects-container">
-        {projectData.map((project, index) => (
+        {
+        projects.map((project, index) => (
           <ProjectCard key={index}>
-            <img src={BackDrop4} alt={project.title} />
+              <img src={project.imageUrl || fallbackImage} alt={project.title} />
             <div className="project-info">
-              <h3>{project.title}</h3>
-              <p>{project.category} • {project.location}</p>
+              <h3>{project.name}</h3>
+              <p>{project.description}</p>
               <button>See More</button>
             </div>
           </ProjectCard>
-        ))}
+        ))
+        }
       </div>
     </ProjectsWrapper>
   );

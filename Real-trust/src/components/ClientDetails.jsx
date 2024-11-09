@@ -125,7 +125,7 @@ console.log(response)
       <ClientList>
         {clientData.map((client) => (
           <ClientCard key={client.id}>
-            <Image src={client.image} alt={client.name} />
+            <Image src={client.imageUrl} alt={client.name} />
             <ClientInfo>
               <ClientName>{client.name}</ClientName>
               <ClientDesignation>{client.designation}</ClientDesignation>
@@ -258,8 +258,9 @@ const ClientCard = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  padding:12;
   height: 150px;
-  object-fit: cover;
+ 
 `;
 
 const ClientInfo = styled.div`

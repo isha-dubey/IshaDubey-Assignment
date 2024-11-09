@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import backgroundImage from '../assets/images/BackDrop3.svg'; // Replace with the actual background image path
+import backgroundImage from '../assets/images/BackDrop3.svg'; 
 import FooterNav from './FooterNav';
+import logo from '../assets/images/logo.svg'
 
 const Footer = () => {
   return (
@@ -17,14 +18,19 @@ const Footer = () => {
     <FooterNav/>
 
     
-      <FooterBottom>
-        <FooterText>© Your Brand 2023</FooterText>
-        <SocialIcons>
-          <SocialIcon href="#"><i className="fab fa-facebook-f"></i></SocialIcon>
-          <SocialIcon href="#"><i className="fab fa-twitter"></i></SocialIcon>
-          <SocialIcon href="#"><i className="fab fa-linkedin-in"></i></SocialIcon>
-        </SocialIcons>
-      </FooterBottom>
+    <FooterBottom>
+      <FooterText>©Real Trust 2023</FooterText>
+      
+      <LogoContainer>
+        <Logo src={logo} alt="Logo" />
+      </LogoContainer>
+      
+      <SocialIcons>
+        <SocialIcon href="#"><i className="fab fa-facebook-f"></i> Facebook</SocialIcon>
+        <SocialIcon href="#"><i className="fab fa-twitter"></i> Twitter</SocialIcon>
+        <SocialIcon href="#"><i className="fab fa-linkedin-in"></i>Linkedin</SocialIcon>
+      </SocialIcons>
+    </FooterBottom>
     </>
   );
 };
@@ -67,31 +73,38 @@ const LearnMoreButton = styled.button`
   }
 `;
 
-
 const FooterBottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #333333;
   padding: 10px 20px;
+  color: white;
+  height:50px;
 `;
 
-const FooterText = styled.span`
-  color: #ffffff;
+const FooterText = styled.div`
   font-size: 14px;
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1; /* Centers the logo */
+`;
+
+const Logo = styled.img`
+  height: 24px;
+  color:white;
 `;
 
 const SocialIcons = styled.div`
   display: flex;
-  gap: 15px;
+  gap: 10px;
 `;
 
 const SocialIcon = styled.a`
-  color: #ffffff;
+  color: white;
   font-size: 18px;
-  text-decoration: none;
-
-  &:hover {
-    color: #007bff;
-  }
 `;

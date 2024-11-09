@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { createProject, getProjects } from '../apis/Projects.api'; // Adjust the path as needed
+import { createProject, getProjects } from '../apis/Projects.api';
 
 export default function ProjectsDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,38 +14,44 @@ export default function ProjectsDetails() {
   // Fetch the projects from the API
   const fetchProjects = async () => {
     try {
-      const data = await getProjects(); // Get the project list from API
-      setProjects(data); // Update projects state with the data
+      const data = await getProjects();
+      setProjects(data?.data); 
     } catch (error) {
       console.error('Failed to fetch projects:', error);
     }
   };
 
-  // Submit form data to create a new project
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formDataToSend = new FormData();
     formDataToSend.append('name', formData.name);
     formDataToSend.append('description', formData.description);
     formDataToSend.append('image', formData.image);
-
+  
     try {
-      await createProject(formDataToSend); // Create new project using the imported API function
-      await fetchProjects(); // Refresh the project list after creation
+      const response = await createProject(formDataToSend);
+  
+      if (response) {
+        setProjects((prevProjects) => [...prevProjects, response]);
+      } else {
+        await fetchProjects();
+      }
+  
       setIsModalOpen(false); // Close the modal
       setFormData({ name: '', description: '', image: null }); // Reset form
     } catch (error) {
-      console.error('Error creating project:', error);
+      console.error('Error creating project:', error.response || error.message);
     }
   };
+  
 
   // Fetch projects initially when the component mounts
   useEffect(() => {
-    getProjects();
+    fetchProjects();
   }, []);
 
-  // Handle input changes for form
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prevFormData) => ({
@@ -61,17 +67,15 @@ export default function ProjectsDetails() {
         <AddButton onClick={() => setIsModalOpen(true)}>Add Project</AddButton>
       </Header>
       <ProjectList>
-        {
-        projects.map((project) => (
+        {projects.map((project) => (
           <ProjectCard key={project.id}>
-            <Image src={project.image || 'https://via.placeholder.com/150'} alt={project.name} />
+            <Image src={project.imageUrl || 'https://via.placeholder.com/150'} alt={project.name} />
             <ProjectInfo>
               <ProjectName>{project.name}</ProjectName>
               <ProjectDescription>{project.description}</ProjectDescription>
             </ProjectInfo>
           </ProjectCard>
-        ))
-        }
+        ))}
       </ProjectList>
       {isModalOpen && (
         <ModalOverlay>
@@ -80,7 +84,7 @@ export default function ProjectsDetails() {
               <ModalTitle>Add New Project</ModalTitle>
               <CloseButton onClick={() => setIsModalOpen(false)}>&times;</CloseButton>
             </ModalHeader>
-            <ModalContent onSubmit={handleSubmit}>
+            <ModalContent >
               <Label>Project Image</Label>
               <Input type="file" name="image" onChange={handleInputChange} />
 
@@ -90,7 +94,7 @@ export default function ProjectsDetails() {
               <Label>Project Description</Label>
               <TextArea name="description" value={formData.description} onChange={handleInputChange} placeholder="Enter project description"></TextArea>
 
-              <SubmitButton type="submit">Submit</SubmitButton>
+              <SubmitButton type="submit" onClick={handleSubmit}>Submit</SubmitButton>
             </ModalContent>
           </Modal>
         </ModalOverlay>
@@ -98,6 +102,7 @@ export default function ProjectsDetails() {
     </Container>
   );
 }
+
 
 // Styled Components
 const Container = styled.div`

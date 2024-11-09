@@ -1,34 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
-import BackDrop4 from '../assets/images/BackDrop4.svg';
+import { getClients } from '../apis/Clients.api';
+import fallbackImage from '../assets/images/images.png'
 
-// Sample data for dynamic content
-const clientData = [
-  { name: "Hannah Smith", position: "CEO, Some Co.", testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel leo sit amet augue facilisis.", image: BackDrop4 },
-  { name: "Shreya Kapok", position: "Product Manager", testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel leo sit amet augue facilisis.", image: BackDrop4 },
-  { name: "John Lopez", position: "CTO, Techno Solutions", testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel leo sit amet augue facilisis.", image: BackDrop4 },
-  { name: "Marty Freeman", position: "General Manager", testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel leo sit amet augue facilisis.", image: BackDrop4 },
-  { name: "Lucy", position: "Sales Rep", testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel leo sit amet augue facilisis.", image: BackDrop4 }
-];
+
 
 const ClientSection = () => {
+  const [clients, setClients] = useState([]); 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const clientData = await getClients(); 
+        console.log(clientData.data) 
+        setClients(clientData.data);
+      } catch (error) {
+        console.error('Failed to fetch clients', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClients();
+  }, []);
+
+  if (loading) {
+    return <div>Loading clients...</div>;
+  }
+
   return (
     <ClientsWrapper>
       <h2>Happy Clients</h2>
       <div className="clients-container">
-        {clientData.map((client, index) => (
+        {
+        clients.map((client, index) => (
           <ClientCard key={index}>
-            <img src={client.image} alt={client.name} />
-            <p>{client.testimonial}</p>
+            <img src={client.imageUrl || fallbackImage} alt={client.name} />
+            <p>{client.description}</p>
             <h3>{client.name}</h3>
             <span>{client.position}</span>
           </ClientCard>
-        ))}
+        ))
+        }
       </div>
     </ClientsWrapper>
   );
 };
+
 
 export default ClientSection;
 
