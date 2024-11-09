@@ -18,9 +18,7 @@ The app leverages a modern tech stack, featuring Firebase for reliable authentic
 
 ## Installation
 
-To run this project locally, follow these steps:
-
-1. **Clone the Repository:**
+To run this project locally  http://localhost:5173/ , follow these steps:
 
    ```bash
    git clone https://github.com/isha-dubey/IshaDubey-Assignment.git
@@ -36,6 +34,8 @@ npm run dev
 
 Email: vopag49645@inikale.com
 Password: 12345678@
+
+
 
 ## API Documentation
 
